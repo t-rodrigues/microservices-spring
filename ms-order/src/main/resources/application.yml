@@ -1,1 +1,22 @@
+server:
+  servlet:
+    context-path: /api/
 
+spring:
+  application:
+    name: order-service
+  datasource:
+    type: com.zaxxer.hikari.HikariDataSource
+  profiles:
+    active: ${APP_PROFILE:test}
+  jackson:
+    time-zone: America/Sao_Paulo
+    property-naming-strategy: SNAKE_CASE
+    deserialization:
+      fail-on-unknown-properties: true
+  jpa:
+    properties:
+      hibernate:
+        temp:
+          '[use_jdbc_metadata_defaults]': false
+    show-sql: true
