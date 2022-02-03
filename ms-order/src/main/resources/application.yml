@@ -12,6 +12,7 @@ spring:
   jackson:
     time-zone: America/Sao_Paulo
     property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non-null
     deserialization:
       fail-on-unknown-properties: true
   jpa:
