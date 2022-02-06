@@ -1,1 +1,14 @@
+server:
+  port: '8081'
 
+spring:
+  application:
+    name: order-worker
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
+
+queue:
+  name: PURCHASE
