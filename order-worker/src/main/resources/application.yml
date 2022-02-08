@@ -28,6 +28,10 @@ spring:
     username: rabbitmq
     password: rabbitmq
 
+logging:
+  level:
+    dev.trodrigues.orderworker.clients.*: DEBUG
+
 mail:
   from: ${MAIL_FROM}
 
