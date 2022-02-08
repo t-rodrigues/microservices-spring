@@ -13,6 +13,7 @@ services:
       host:
 
   rabbitmq:
+    container_name: rabbitmq
     image: rabbitmq:3.9-management
     ports:
       - '5672:5672'
