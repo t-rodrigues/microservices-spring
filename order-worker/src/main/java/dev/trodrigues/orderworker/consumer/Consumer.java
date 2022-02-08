@@ -2,6 +2,7 @@ package dev.trodrigues.orderworker.consumer;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.trodrigues.orderworker.domain.Order;
+import dev.trodrigues.orderworker.services.CepService;
 import dev.trodrigues.orderworker.services.EmailService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -18,13 +19,15 @@ public class Consumer {
 
     private final ObjectMapper objectMapper;
     private final EmailService emailService;
+    private final CepService cepService;
 
     @SneakyThrows
     @RabbitListener(queues = {"${queue.name}"})
     public void consumer(@Payload Message message) {
         var order = objectMapper.readValue(message.getBody(), Order.class);
-        log.info("order: {}", order);
+        cepService.findByCep(order.getCep());
         emailService.notifyClient(String.format("%s <%s>", order.getName(), order.getEmail()));
+        log.info("order: {}", order);
     }
 
 }

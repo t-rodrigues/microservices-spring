@@ -22,8 +22,6 @@ spring:
     time-zone: America/Sao_Paulo
     property-naming-strategy: SNAKE_CASE
     default-property-inclusion: non-null
-    deserialization:
-      fail-on-unknown-properties: true
   rabbitmq:
     host: localhost
     port: 5672
@@ -35,3 +33,5 @@ mail:
 
 queue:
   name: PURCHASE
+
+viacep: https://viacep.com.br/ws
