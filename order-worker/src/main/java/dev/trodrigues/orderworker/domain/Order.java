@@ -15,6 +15,7 @@ public class Order implements Serializable {
 
     private Long id;
     private String name;
+    private String email;
     private Long product;
     private BigDecimal total;
     private LocalDate purchaseDate;

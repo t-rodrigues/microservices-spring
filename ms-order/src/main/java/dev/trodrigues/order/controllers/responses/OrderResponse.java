@@ -10,6 +10,7 @@ public class OrderResponse {
 
     private Long id;
     private String name;
+    private String email;
     private Long product;
     private BigDecimal total;
     private LocalDate purchaseDate;
@@ -19,6 +20,7 @@ public class OrderResponse {
     public OrderResponse(Order order) {
         this.id = order.getId();
         this.name = order.getName();
+        this.email = order.getEmail();
         this.product = order.getProduct();
         this.total = order.getTotal();
         this.purchaseDate = order.getPurchaseDate();
