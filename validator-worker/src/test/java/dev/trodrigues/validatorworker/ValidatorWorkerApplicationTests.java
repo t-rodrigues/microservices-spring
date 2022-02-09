@@ -1,0 +1,12 @@
+package dev.trodrigues.validatorworker;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class ValidatorWorkerApplicationTests {
+
+    @Test
+    void contextLoads() {}
+
+}
