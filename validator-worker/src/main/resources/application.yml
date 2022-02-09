@@ -1,1 +1,18 @@
+server:
+  port: '8082'
 
+spring:
+  application:
+    name: validator-worker
+  jackson:
+    time-zone: America/Sao_Paulo
+    property-naming-strategy: SNAKE_CASE
+    default-property-inclusion: non-null
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: rabbitmq
+    password: rabbitmq
+
+queue:
+  name: PENDING_PURCHASE
