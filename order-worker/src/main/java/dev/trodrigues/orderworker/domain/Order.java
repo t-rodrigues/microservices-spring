@@ -22,4 +22,6 @@ public class Order implements Serializable {
     private String cpfClient;
     private String cep;
 
+    private Card card;
+
 }

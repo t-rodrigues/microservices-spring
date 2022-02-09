@@ -26,7 +26,7 @@ public class Consumer {
     public void consumer(@Payload Message message) {
         var order = objectMapper.readValue(message.getBody(), Order.class);
         cepService.findByCep(order.getCep());
-        emailService.notifyClient(String.format("%s <%s>", order.getName(), order.getEmail()));
+        emailService.notifyClient(order);
         log.info("order: {}", order);
     }
 

@@ -37,5 +37,6 @@ mail:
 
 queue:
   name: PURCHASE
+  pending: PENDING_PURCHASE
 
 viacep: https://viacep.com.br/ws
