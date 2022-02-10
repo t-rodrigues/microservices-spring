@@ -8,6 +8,20 @@ spring:
     time-zone: America/Sao_Paulo
     property-naming-strategy: SNAKE_CASE
     default-property-inclusion: non-null
+  mail:
+    host: ${MAIL_HOST}
+    username: ${MAIL_USERNAME}
+    password: ${MAIL_PASSWORD}
+    properties:
+      mail:
+        transport:
+          protocol: smtp
+        smtp:
+          port: 587
+          auth: true
+          starttls:
+            enable: true
+            required: true
   rabbitmq:
     host: localhost
     port: 5672
