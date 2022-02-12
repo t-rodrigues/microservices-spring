@@ -27,4 +27,10 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Order not found: " + id));
     }
 
+    @Override
+    public void delete(Long id) {
+        var order = findById(id);
+        orderRepository.delete(order);
+    }
+
 }

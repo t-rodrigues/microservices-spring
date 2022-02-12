@@ -8,4 +8,6 @@ public interface OrderService {
 
     Order findById(Long id);
 
+    void delete(Long id);
+
 }

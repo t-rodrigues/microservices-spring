@@ -13,6 +13,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -68,6 +69,28 @@ class OrderServiceImplTest {
         assertEquals(existingId, order.getId());
         assertNotNull(order);
         verify(orderRepository, times(1)).findById(existingId);
+    }
+
+    @Test
+    void shouldDeleteOrderSuccessful() {
+        var orderMock = OrderMock.creatOrder();
+        var existingId = orderMock.getId();
+
+        when(orderRepository.findById(existingId)).thenReturn(Optional.of(orderMock));
+        doNothing().when(orderRepository).delete(orderMock);
+
+        assertDoesNotThrow(() -> orderServiceImpl.delete(existingId));
+        verify(orderRepository, times(1)).delete(orderMock);
+    }
+
+    @Test
+    void shouldThrowWhenNonExistingIdWasProvided() {
+        var nonExistingId = 6L;
+
+        when(orderRepository.findById(nonExistingId)).thenReturn(Optional.empty());
+
+        assertThrows(ObjectNotFoundException.class, () -> orderServiceImpl.delete(nonExistingId));
+        verify(orderRepository, times(0)).delete(any(Order.class));
     }
 
 }
