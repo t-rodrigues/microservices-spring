@@ -1,6 +1,7 @@
 package dev.trodrigues.order.services.impl;
 
 import dev.trodrigues.order.domain.Order;
+import dev.trodrigues.order.domain.OrderMock;
 import dev.trodrigues.order.repositories.OrderRepository;
 import dev.trodrigues.order.services.rabbitmq.Producer;
 import org.junit.jupiter.api.Test;
@@ -9,10 +10,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class OrderServiceImplTest {
@@ -28,23 +30,15 @@ class OrderServiceImplTest {
 
     @Test
     void shouldSaveOrderWhenSuccessful() {
-        var orderMok = getOrder();
+        var orderMock = OrderMock.creatOrder();
 
-        var order = orderServiceImpl.saveOrder(orderMok);
+        when(orderRepository.save(any(Order.class))).thenReturn(orderMock);
+        doNothing().when(producer).sendOrder(orderMock);
 
-        assertEquals(orderMok.getCep(), order.getCep());
-    }
+        var order = orderServiceImpl.saveOrder(orderMock);
 
-    Order getOrder() {
-        return Order.builder()
-                .name("John Doe")
-                .email("john@doe.com")
-                .product(1L)
-                .total(BigDecimal.TEN)
-                .purchaseDate(LocalDate.now())
-                .cpfClient("12312")
-                .cep("99000999")
-                .build();
+        assertEquals(orderMock.getCep(), order.getCep());
+        assertNotNull(order);
     }
 
 }
