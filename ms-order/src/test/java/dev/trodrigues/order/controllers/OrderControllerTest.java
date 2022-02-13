@@ -2,12 +2,14 @@ package dev.trodrigues.order.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import dev.trodrigues.order.domain.OrderMock;
+import dev.trodrigues.order.services.rabbitmq.Producer;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -15,6 +17,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.doNothing;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,6 +35,9 @@ class OrderControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
+    @MockBean
+    private Producer producer;
+
     private MockMvc mockMvc;
 
     @BeforeEach
@@ -41,6 +48,8 @@ class OrderControllerTest {
     @Test
     void shouldCreateNewOrder() throws Exception {
         var order = OrderMock.createOrderRequest();
+        doNothing().when(producer).sendOrder(any());
+
         mockMvc.perform(post("/orders")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(order)))
