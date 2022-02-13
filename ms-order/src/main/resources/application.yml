@@ -8,7 +8,7 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
   profiles:
-    active: ${APP_PROFILE:test}
+    active: ${APP_PROFILE:local}
   jackson:
     time-zone: America/Sao_Paulo
     property-naming-strategy: SNAKE_CASE

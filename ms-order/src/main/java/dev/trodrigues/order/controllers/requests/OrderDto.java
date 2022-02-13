@@ -2,12 +2,18 @@ package dev.trodrigues.order.controllers.requests;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import dev.trodrigues.order.domain.Order;
-import lombok.Getter;
+import lombok.*;
+
 import javax.validation.constraints.*;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class OrderDto {
 
     @NotBlank
