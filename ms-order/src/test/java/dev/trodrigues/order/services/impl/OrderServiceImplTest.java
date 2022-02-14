@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 class OrderServiceImplTest {
 
     @InjectMocks
-    private OrderServiceImpl orderServiceImpl;
+    private OrderServiceImpl orderService;
 
     @Mock
     private OrderRepository orderRepository;
@@ -42,7 +42,7 @@ class OrderServiceImplTest {
         when(orderRepository.save(any(Order.class))).thenReturn(orderMock);
         doNothing().when(producer).sendOrder(orderMock);
 
-        var order = orderServiceImpl.saveOrder(orderMock);
+        var order = orderService.saveOrder(orderMock);
 
         assertEquals(orderMock.getCep(), order.getCep());
         assertNotNull(order);
@@ -54,7 +54,7 @@ class OrderServiceImplTest {
 
         when(orderRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
-        assertThrows(ObjectNotFoundException.class, () -> orderServiceImpl.findById(nonExistingId));
+        assertThrows(ObjectNotFoundException.class, () -> orderService.findById(nonExistingId));
     }
 
     @Test
@@ -64,7 +64,7 @@ class OrderServiceImplTest {
 
         when(orderRepository.findById(existingId)).thenReturn(Optional.of(orderMock));
 
-        var order = orderServiceImpl.findById(existingId);
+        var order = orderService.findById(existingId);
 
         assertEquals(existingId, order.getId());
         assertNotNull(order);
@@ -79,7 +79,7 @@ class OrderServiceImplTest {
         when(orderRepository.findById(existingId)).thenReturn(Optional.of(orderMock));
         doNothing().when(orderRepository).delete(orderMock);
 
-        assertDoesNotThrow(() -> orderServiceImpl.delete(existingId));
+        assertDoesNotThrow(() -> orderService.delete(existingId));
         verify(orderRepository, times(1)).delete(orderMock);
     }
 
@@ -89,7 +89,7 @@ class OrderServiceImplTest {
 
         when(orderRepository.findById(nonExistingId)).thenReturn(Optional.empty());
 
-        assertThrows(ObjectNotFoundException.class, () -> orderServiceImpl.delete(nonExistingId));
+        assertThrows(ObjectNotFoundException.class, () -> orderService.delete(nonExistingId));
         verify(orderRepository, times(0)).delete(any(Order.class));
     }
 

@@ -8,6 +8,7 @@ on:
 
 jobs:
   tests:
+    name: Run tests
     runs-on: ubuntu-latest
 
     steps:
@@ -20,3 +21,30 @@ jobs:
         cache: maven
     - name: Tests
       run: mvn -B test --file ./ms-order/pom.xml
+
+  build:
+    name: Build package
+    needs: tests
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 17
+      uses: actions/setup-java@v2
+      with:
+        java-version: '17'
+        distribution: 'microsoft'
+        cache: maven
+    - name: Cache local Maven repository
+      uses: actions/cache@v2
+      with:
+        path: ~/.m2/repository
+        key: ${{ runner.os }}-maven-${{ hashFiles('./ms-order/pom.xml') }}
+        restore-keys: ${{ runner.os }}-maven-
+    - name: Build package
+      run: mvn -B package -DskipTests --file ./ms-order/pom.xml
+    - name: Upload .jar
+      uses: actions/upload-artifact@v2
+      with:
+        name: app
+        path: ./ms-order/target/*.jar
